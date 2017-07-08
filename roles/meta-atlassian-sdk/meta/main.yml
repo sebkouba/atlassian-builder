@@ -3,6 +3,7 @@ allow_duplicates: yes
 dependencies:
   - { role: atlassian-sdk, version: 6.2.14, java: 8 }
   - { role: atlassian-sdk, version: 6.2.6, java: 8 }
+  - { role: atlassian-sdk, version: 6.2.3, java: 8 }
 #  - { role: atlassian-sdk, version: 6.2.3, java: 8 }
 #  - { role: atlassian-sdk, version: 6.2.2, java: 8 }
 #  - { role: atlassian-sdk, version: 6.2.2, java: 7 }
