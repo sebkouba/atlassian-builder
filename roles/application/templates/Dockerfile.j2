@@ -1,0 +1,14 @@
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/java:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV GROOVY_HOME /usr/groovy
+ENV PATH ${GROOVY_HOME}/bin:${PATH}
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+RUN cd /tmp && \
+    wget -nv http://dl.bintray.com/groovy/maven/groovy-binary-{{ groovy.version }}.zip && \
+    unzip groovy-binary-{{ groovy.version }}.zip && \
+    mv groovy-{{ groovy.version }} /usr/groovy && \
+    rm groovy-binary-{{ groovy.version }}.zip

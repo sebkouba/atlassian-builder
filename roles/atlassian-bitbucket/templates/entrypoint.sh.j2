@@ -1,0 +1,29 @@
+{% if version|version_compare("4.0.0", "<") %}{% set aname = "stash" %}{% endif %}
+#!/bin/bash
+
+trap `pkill -SIGTERM java` SIGTERM
+
+# Detect bitbucket startup
+if [ "$3" = "/opt/bitbucket/install/bin/start-{{ aname|default("bitbucket") }}.sh -fg" ]
+  then
+    if [ -d "/opt/bitbucket/config" ]
+      then
+        /opt/bitbucket/config/ssl/install.sh
+        cd /opt/bitbucket/config 
+        if [ -e "run.groovy" ]
+          then
+            ./run.groovy || exit 1
+        fi
+        cd -
+    fi
+    # Start Bitbucket
+    chown -R bitbucket:bitbucket /opt/bitbucket
+    if [ -d "/opt/bitbucket/data/shared/data/repositories/" ]
+      then
+        find /opt/bitbucket/data/shared/data/repositories/*/hooks/ -type f | xargs chmod u+x
+    fi
+    set -- gosu bitbucket "$@"
+fi
+
+# Start whatever instead
+exec "$@"

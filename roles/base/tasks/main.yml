@@ -1,0 +1,8 @@
+---
+- name: create destination-directories
+  file: dest=tmp/{{ os }} state=directory mode=0777
+
+- name: template the base container
+  template: src=Dockerfile.j2 dest=tmp/{{ os }}/Dockerfile-{{ osversion }} mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=base-{{ os }} buildtag={{ osversion }} buildfile=Dockerfile-{{ osversion }} buildpath=tmp/{{ os }}/

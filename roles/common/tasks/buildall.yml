@@ -1,0 +1,15 @@
+---
+- set_fact: 
+    buildstep:
+      - tag: "{{ buildtag }}"
+        file: "{{ buildfile }}"
+        path: "{{ buildpath }}"
+        name: "{{ buildname }}"
+        #ltag: "{{ ltag | default('latest') }}"
+
+- name: append to buildscript
+  lineinfile:
+    dest: tmp/buildall.yml
+    regexp: ".*{{ buildstep | to_yaml }}$"
+    line: "{{ buildstep | to_yaml }}"
+    state: present

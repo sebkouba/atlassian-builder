@@ -1,0 +1,11 @@
+---
+- name: create destination-directories
+  file: dest=tmp/fecru state=directory mode=0777
+
+- name: template the fecrus
+  template: src=Dockerfile.j2 dest=tmp/fecru/Dockerfile-{{ version }} mode=0777
+
+- name: copy entrypoint
+  copy: src=entrypoint.sh dest=tmp/fecru/entrypoint.sh mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=fecru buildtag={{ version }} buildpath=tmp/fecru/ buildfile=Dockerfile-{{ version }}

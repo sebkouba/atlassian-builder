@@ -1,0 +1,11 @@
+---
+- name: create destination-directories
+  file: dest=tmp/crowd state=directory mode=0777
+
+- name: template the crowds
+  template: src=Dockerfile.j2 dest=tmp/crowd/Dockerfile-{{ version }} mode=0777
+
+- name: copy entrypoint
+  copy: src=entrypoint.sh dest=tmp/crowd/entrypoint.sh mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=crowd buildtag={{ version }} buildpath=tmp/crowd/ buildfile=Dockerfile-{{ version }}

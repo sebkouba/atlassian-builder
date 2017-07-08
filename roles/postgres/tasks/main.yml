@@ -1,0 +1,8 @@
+---
+- name: create destination-directories
+  file: dest=tmp/postgres state=directory mode=0777
+
+- name: copy the files for postgres
+  copy: src=../files/ dest=tmp/postgres/ mode=0777 backup=yes
+
+- include: ../../common/tasks/buildall.yml buildname=postgres buildtag=9.4 buildpath=tmp/postgres/ buildfile=Dockerfile

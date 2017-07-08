@@ -1,0 +1,8 @@
+---
+- name: create sdk destination-directories
+  file: dest=tmp/atlassian-sdk/sdk-{{ version }} state=directory mode=0777
+
+- name: template the sdk dockerfile
+  template: src=Dockerfile.j2 dest=tmp/atlassian-sdk/sdk-{{ version }}/Dockerfile-{{ java }} mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=sdk-{{ version }} buildtag={{ java }} buildpath=tmp/atlassian-sdk/sdk-{{ version }}/ buildfile=Dockerfile-{{ java }} ltag={{ java }}

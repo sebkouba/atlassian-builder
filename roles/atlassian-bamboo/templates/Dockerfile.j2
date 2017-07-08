@@ -1,0 +1,28 @@
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/application:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV BAMBOO_VERSION={{ version }}
+
+RUN mkdir -p /opt/bamboo && \
+  cd /opt/bamboo && \
+  wget -nv https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-${BAMBOO_VERSION}.tar.gz && \
+  tar xf atlassian-bamboo-${BAMBOO_VERSION}.tar.gz && \
+  mv atlassian-bamboo-${BAMBOO_VERSION} install && \
+  rm -f atlassian-bamboo-${BAMBOO_VERSION}.tar.gz
+
+RUN wget -nv {{ mysql_connector }} -P /opt/bamboo/install/lib
+
+VOLUME /opt/bamboo/data /opt/bamboo/install/logs
+
+EXPOSE 8085 54663
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+RUN adduser -D -h /opt/bamboo/data bamboo
+
+CMD /opt/bamboo/install/bin/start-bamboo.sh -fg
+
+# Running modifications
+RUN echo "bamboo.home=/opt/bamboo/data" >> /opt/bamboo/install/atlassian-bamboo/WEB-INF/classes/bamboo-init.properties && \
+  echo "load /opt/bamboo/install/lib/*.jar" >> /usr/groovy/conf/groovy-starter.conf

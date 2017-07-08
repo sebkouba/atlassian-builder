@@ -1,0 +1,16 @@
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/java:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV SDK_VERSION {{ version }}
+
+
+RUN cd /usr/share && \
+  wget -nv "https://maven.atlassian.com/service/local/repositories/atlassian-public/content/com/atlassian/amps/atlassian-plugin-sdk/${SDK_VERSION}/atlassian-plugin-sdk-${SDK_VERSION}.tar.gz" && \
+  tar xf atlassian-plugin-sdk-${SDK_VERSION}.tar.gz &&  \
+  rm -f atlassian-plugin-sdk-${SDK_VERSION}.tar.gz && \
+  mv atlassian-plugin-sdk-${SDK_VERSION} atlassian-plugin-sdk
+
+ENV PATH="/usr/share/atlassian-plugin-sdk/bin:${PATH}"
+
+CMD ["/usr/share/atlassian-plugin-sdk/bin/atlas-version"]

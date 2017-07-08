@@ -1,0 +1,9 @@
+---
+- name: create destination-directories
+  file: dest=tmp/java state=directory mode=0777
+
+- name: template the javas
+  template: src=Dockerfile.j2 dest=tmp/java/Dockerfile-{{ java }}{{ javabuild }} mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=java buildtag={{ java }}{{ javabuild }} buildpath=tmp/java/ buildfile=Dockerfile-{{ java }}{{ javabuild }} ltag={{ java }}
+- include: ../../common/tasks/buildall.yml buildname=java buildtag={{ java }} buildpath=tmp/java/ buildfile=Dockerfile-{{ java }}{{ javabuild }} ltag={{ java }}

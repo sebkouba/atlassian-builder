@@ -1,0 +1,31 @@
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/application:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV FECRU_VERSION={{ version }}
+
+RUN mkdir -p /opt/fecru && \
+  wget -nv https://www.atlassian.com/software/crucible/downloads/binary/crucible-${FECRU_VERSION}.zip && \
+  unzip -q crucible-${FECRU_VERSION}.zip && \
+  mv fecru-${FECRU_VERSION} /opt/fecru/install && \
+  rm crucible-${FECRU_VERSION}.zip
+
+ENV FISHEYE_INST=/opt/fecru/data
+
+RUN wget -nv {{ mysql_connector }} -P /opt/fecru/install/lib
+
+VOLUME /opt/fecru/data /opt/fecru/install/logs
+
+EXPOSE 8060
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+RUN adduser -D -h /opt/fecru/data fecru
+
+CMD /opt/fecru/install/bin/fisheyectl.sh run
+
+# Running modifications
+RUN echo "load /opt/fecru/install/lib/*.jar" >> /usr/groovy/conf/groovy-starter.conf && \
+  echo "load /opt/fecru/install/lib/dbdrivers/postgresql/*.jar" >> /usr/groovy/conf/groovy-starter.conf && \
+  echo "load /opt/fecru/install/lib/dbdrivers/oracle/*.jar" >> /usr/groovy/conf/groovy-starter.conf && \
+  echo "load /opt/fecru/install/lib/dbdrivers/sqlserver/*.jar" >> /usr/groovy/conf/groovy-starter.conf

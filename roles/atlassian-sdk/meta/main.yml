@@ -1,0 +1,4 @@
+---
+allow_duplicates: yes
+dependencies:
+  - { role: java, javaurl: "{{ javas[java]['url'] }}", javabuild: "{{ javas[java]['latest'] }}" }

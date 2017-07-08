@@ -1,0 +1,17 @@
+---
+- name: create destination-directories
+  file: dest=tmp/bitbucket/config/{{ item }} state=directory mode=0777
+  with_items:
+    - bitbucket
+    - ssl
+
+- name: template the bitbuckets
+  template: src=Dockerfile.j2 dest=tmp/bitbucket/Dockerfile-{{ version }} mode=0777
+
+- name: template the entrypoint
+  template: src=entrypoint.sh.j2 dest=tmp/bitbucket/entrypoint.sh-{{ version }} mode=0777
+
+- name: copygroovy scripts
+  copy: src=config/ dest=tmp/bitbucket/config/ mode=0777
+ 
+- include: ../../common/tasks/buildall.yml buildname=bitbucket buildtag={{ version }} buildpath=tmp/bitbucket/ buildfile=Dockerfile-{{ version }}

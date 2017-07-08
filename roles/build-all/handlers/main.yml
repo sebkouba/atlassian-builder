@@ -1,0 +1,9 @@
+---
+#- name: hipchatsay
+#    api: https://api.hipchat.com/v2/
+#    token: "hQAIl8xkpv41M849RR1X5RnHq82XXlbNMjrYX2B7"
+#    room: MakeITSO
+#    msg: Ansible task finished
+
+- name: hipchatsay
+  debug: msg="{{ image_base }}/{{ item.name }}:{{ item.tag }} succesfully built"

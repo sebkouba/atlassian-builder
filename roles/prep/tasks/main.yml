@@ -1,0 +1,9 @@
+---
+- name: create working directory
+  file: dest=tmp state=directory mode=0777
+
+- set_fact:
+    image_base: "{% if repository is defined %}{{ repository }}/{% endif %}{{ image_base }}"
+
+- name: template buildall.yml
+  template: src=buildall.yml.j2 dest=tmp/buildall.yml mode=0644

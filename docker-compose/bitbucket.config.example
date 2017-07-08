@@ -1,0 +1,12 @@
+bitbucket {
+    minimumMemory "768m"
+    maximumMemory "768m"
+    database {
+        user "atlassian"
+        password "atlassian"
+        host "bitbucketdb"
+        name "bitbucket"
+        type "postgres"
+    }
+    baseUrl "https://git.intranet.co"
+}

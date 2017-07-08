@@ -1,0 +1,8 @@
+---
+- name: create destination-directories
+  file: dest=tmp/application state=directory mode=0777
+
+- name: template the application layer
+  template: src=Dockerfile.j2 dest=tmp/application/Dockerfile-{{ java }} mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=application buildtag={{ java }} buildpath=tmp/application/ buildfile=Dockerfile-{{ java }} ltag={{ java }}

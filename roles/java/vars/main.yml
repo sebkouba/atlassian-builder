@@ -1,0 +1,36 @@
+---
+javas:
+  8:
+    latest: u131
+    url: "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163"
+  7:
+    latest: u80
+    url: "http://ie.archive.ubuntu.com/funtoo/distfiles/oracle-java"
+  6:
+    latest: u45
+    url: "http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45"
+
+
+### Oracle Java full urls with build-number ###
+
+## 8u131 => http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131
+## 8u121 => http://download.oracle.com/otn-pub/java/jdk/8u121-b13/jdk-8u121
+## 8u111 => http://download.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111
+## 8u101 => http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101
+## v8u91 => http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91
+## v8u77 => http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77
+## v8u73 => http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73
+## v8u71 => http://download.oracle.com/otn-pub/java/jdk/8u71-b15/jdk-8u71
+## v8u65 => http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65
+## v8u60 => http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60
+## v8u51 => http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51
+## v8u45 => http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45
+## v8u40 => http://download.oracle.com/otn-pub/java/jdk/8u40-b25/jdk-8u40
+## v8u31 => http://download.oracle.com/otn-pub/java/jdk/8u31-b13/jdk-8u31
+## v8u25 => http://download.oracle.com/otn-pub/java/jdk/8u25-b17/jdk-8u25
+
+## v7u80 => http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80
+## Oracle moved 7 to the archive, downloading from 'other' mirror.
+## http://ie.archive.ubuntu.com/funtoo/distfiles/oracle-java/jdk-7u80-linux-x64.tar.gz
+
+## v6u45 => http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45

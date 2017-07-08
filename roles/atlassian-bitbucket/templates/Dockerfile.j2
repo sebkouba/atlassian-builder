@@ -1,0 +1,34 @@
+{% if version|version_compare("4.0.0", "<") %}{% set aname = "stash" %}{% endif %}
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/application:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV BITBUCKET_VERSION={{ version }}
+
+RUN apk add --no-cache git perl
+
+RUN mkdir -p /opt/bitbucket && \
+  wget -nv https://www.atlassian.com/software/stash/downloads/binary/atlassian-{{ aname|default("bitbucket") }}-${BITBUCKET_VERSION}.tar.gz && \
+  tar xf atlassian-{{ aname|default("bitbucket") }}-${BITBUCKET_VERSION}.tar.gz && \
+  mv atlassian-{{ aname|default("bitbucket") }}-${BITBUCKET_VERSION} /opt/bitbucket/install && \
+  rm -f atlassian-{{ aname|default("bitbucket") }}-${BITBUCKET_VERSION}.tar.gz 
+
+ENV {{ aname|default("bitbucket")|upper }}_HOME=/opt/bitbucket/data
+
+RUN wget -nv {{ mysql_connector }} -P /opt/bitbucket/install/lib
+
+VOLUME /opt/bitbucket/data /opt/bitbucket/install/logs
+
+EXPOSE 7990 7999
+
+# Running modifications
+RUN echo "load /opt/bitbucket/install/lib/*.jar" >> /usr/groovy/conf/groovy-starter.conf
+
+RUN adduser -h /opt/bitbucket/data -D bitbucket
+
+ADD config/ /opt/bitbucket/config/
+
+COPY entrypoint.sh-{{ version }} /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD /opt/bitbucket/install/bin/start-{{ aname|default("bitbucket") }}.sh -fg

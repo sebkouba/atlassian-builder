@@ -1,0 +1,20 @@
+---
+# Include generated file which contains list of to-build-containers
+
+- include_vars: ../../tmp/buildall.yml
+
+# Build all containers !!!
+
+- name: Build an image
+  docker_image:
+    path: "{{ role_path }}/../../{{ item.path }}"
+    dockerfile: "{{ item.file }}"
+    name: "{% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/{{ item.name }}"
+    tag: "{{ item.tag }}"
+#    push: no
+    force: yes
+    pull: no
+    state: present
+  with_items:
+    - "{{ build }}"
+  tags: build

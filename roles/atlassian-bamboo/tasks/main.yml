@@ -1,0 +1,18 @@
+---
+- name: create destination-directories
+  file: dest=tmp/bamboo state=directory mode=0777
+
+- name: create destination-directories
+  file: dest=tmp/bamboo-remote state=directory mode=0777
+
+- name: template the bamboos
+  template: src=Dockerfile.j2 dest=tmp/bamboo/Dockerfile-{{ version }} mode=0777
+
+- name: copy entrypoint
+  copy: src=entrypoint.sh dest=tmp/bamboo/entrypoint.sh mode=0777
+
+- name: template the bamboo-remotes
+  template: src=Dockerfile-remote.j2 dest=tmp/bamboo-remote/Dockerfile-{{ version }} mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=bamboo buildtag={{ version }} buildpath=tmp/bamboo/ buildfile=Dockerfile-{{ version }}
+- include: ../../common/tasks/buildall.yml buildname=bamboo-remote buildtag={{ version }} buildpath=tmp/bamboo-remote/ buildfile=Dockerfile-{{ version }}

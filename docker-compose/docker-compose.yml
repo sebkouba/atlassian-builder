@@ -1,0 +1,73 @@
+version: '2'
+
+services:
+  jiradb:
+    image: atlassian/postgres:9.4
+    volumes:
+      - jiradb:/var/lib/postgresql/data
+    environment:
+      - DB_PASS=atlassian
+      - DB_NAME=jira
+      - DB_USER=atlassian
+    networks:
+      - jira
+  confluencedb:
+    image: atlassian/postgres:9.4
+    volumes:
+      - confluencedb:/var/lib/postgresql/data
+    environment:
+      - DB_PASS=atlassian
+      - DB_NAME=confluence
+      - DB_USER=atlassian
+    networks:
+      - confluence
+  bitbucketdb:
+    image: atlassian/postgres:9.4
+    volumes:
+      - bitbucketdb:/var/lib/postgresql/data
+    environment:
+      - DB_PASS=atlassian
+      - DB_NAME=bitbucket
+      - DB_USER=atlassian
+    networks:
+      - bitbucket
+  jira:
+    image: atlassian/jira:7.3.8
+    volumes:
+      - jiradata:/opt/jira/data
+      #- ./jira.config:/opt/jira/config/jira.config
+    networks:
+      - jira
+    ports:
+      - 0.0.0.0:8080:8080
+  confluence:
+    image: atlassian/confluence:6.2.3
+    volumes:
+      - confluencedata:/opt/confluence/data
+      #- ./confluence.config:/opt/confluence/config/confluence.config
+    networks:
+      - confluence
+    ports:
+      - 0.0.0.0:8090:8090
+  bitbucket:
+    image: atlassian/bitbucket:5.1.0
+    volumes:
+      - bitbucketdata:/opt/bitbucket/data
+      #- ./bitbucket.config:/opt/bitbucket/config/bitbucket.config
+    networks:
+      - bitbucket
+    ports:
+      - 0.0.0.0:7990:7990
+
+volumes:
+  jiradb:
+  jiradata:
+  confluencedb:
+  confluencedata:
+  bitbucketdb:
+  bitbucketdata:
+
+networks:
+  jira:
+  confluence:
+  bitbucket:

@@ -1,0 +1,40 @@
+{# download-url and zip-file logic ... thanks Atlassian #}
+{% set aname = "atlassian-jira" %}
+{% set adir = aname+"-standalone" %}
+{% set azip = aname+"-"+version+".tar.gz" %}
+{% set url = "https://www.atlassian.com/software/jira/downloads/binary/" %}
+{% if version|version_compare("7.0.0", ">=") %}
+{% set aname = "atlassian-jira-software" %}
+{% set azip = aname+"-"+version+"-jira-"+version+".tar.gz" %}
+{% endif %}
+{% if version|version_compare("7.1.9", ">=") %}
+{% set azip = aname+"-"+version+".tar.gz" %}
+{% endif %}
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/application:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV JIRA_VERSION={{ version }}
+
+RUN mkdir -p /opt/jira/config && \
+  cd /opt/jira && \
+  wget -nv {{ url }}/{{ azip }} && \
+  tar xf {{ azip }} &&  \
+  rm -f {{ azip }} && \
+  mv {{ aname }}-${JIRA_VERSION}-standalone install
+
+RUN wget -nv {{ mysql_connector }} -P /opt/jira/install/lib
+
+VOLUME /opt/jira/data /opt/jira/install/logs /opt/jira/config
+
+EXPOSE 8080
+COPY config/ /opt/jira/config/
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+RUN adduser -D -h /opt/jira/data jira
+CMD /opt/jira/install/bin/start-jira.sh -fg
+
+# Running modifications
+RUN sed -i -e 's@^JVM_EXTRA_ARGS="@JVM_EXTRA_ARGS="-Djira.downgrade.allowed=true -Datlassian.plugins.enable.wait=300 @' /opt/jira/install/bin/setenv.sh && \
+  sed -i -e 's@^jira.home.*$@jira.home=/opt/jira/data@' /opt/jira/install/atlassian-jira/WEB-INF/classes/jira-application.properties && \
+  echo "load /opt/jira/install/lib/*.jar" >> /usr/groovy/conf/groovy-starter.conf

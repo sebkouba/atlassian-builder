@@ -1,0 +1,13 @@
+confluence {
+    minimumMemory "2048m"
+    maximumMemory "2048m"
+    database {
+        user "atlassian"
+        password "atlassian"
+        host "confluencedb"
+        name "confluence"
+        type "postgres"
+        schema "public"
+    }
+    baseUrl "http://wiki.intranet.co"
+}

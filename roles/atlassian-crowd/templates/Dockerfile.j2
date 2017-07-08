@@ -1,0 +1,30 @@
+FROM {% if registry is defined %}{{ registry }}/{% endif %}{{ image_base }}/application:{{ java }}
+
+{% include "roles/common/templates/Dockerfile.j2" %}
+
+ENV CROWD_VERSION={{ version }}
+
+RUN mkdir -p /opt/crowd && \
+  cd /opt/crowd && \
+  wget -nv https://www.atlassian.com/software/crowd/downloads/binary/atlassian-crowd-${CROWD_VERSION}.tar.gz && \
+  tar xfz atlassian-crowd-${CROWD_VERSION}.tar.gz && \
+  mv atlassian-crowd-${CROWD_VERSION} install && \
+  rm -f atlassian-crowd-${CROWD_VERSION}.tar.gz
+
+RUN wget -nv {{ mysql_connector }} -P /opt/crowd/install/apache-tomcat/lib
+
+VOLUME /opt/crowd/data /opt/crowd/install/logs
+
+EXPOSE 8095
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+RUN adduser -D -h /opt/crowd/data crowd
+
+CMD /opt/crowd/install/start_crowd.sh
+
+# Running modifications
+RUN echo "crowd.home=/opt/crowd/data" >> /opt/crowd/install/crowd-webapp/WEB-INF/classes/crowd-init.properties && \
+  # Run tomcat in the foreground | https://jira.atlassian.com/browse/CWD-4318
+  cd /opt/crowd/install/; sed -i -e 's/start/run/g' apache-tomcat/bin/startup.sh && \
+  echo "load /opt/crowd/install/apache-tomcat/lib/*.jar" >> /usr/groovy/conf/groovy-starter.conf

@@ -1,0 +1,20 @@
+---
+- name: create destination-directories
+  file: dest=tmp/confluence/config/{{ item }} state=directory mode=0777
+  with_items:
+    - confluence
+    - ssl
+
+- name: template the confluence
+  template: src=Dockerfile.j2 dest=tmp/confluence/Dockerfile-{{ version }} mode=0777
+
+- name: copygroovy scripts
+  copy: src=config/ dest=tmp/confluence/config/ mode=0777
+
+- name: copy files
+  copy: src={{ item }} dest=tmp/confluence/{{ item }} mode=0777
+  with_items:
+    - entrypoint.sh
+    - apache2.conf
+
+- include: ../../common/tasks/buildall.yml buildname=confluence buildtag={{ version }} buildpath=tmp/confluence/ buildfile=Dockerfile-{{ version }}

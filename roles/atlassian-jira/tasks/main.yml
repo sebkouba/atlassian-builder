@@ -1,0 +1,17 @@
+---
+- name: create destination-directories
+  file: dest=tmp/jira/config/{{ item }} state=directory mode=0777
+  with_items:
+    - jira
+    - ssl
+
+- name: template the jiras
+  template: src=Dockerfile.j2 dest=tmp/jira/Dockerfile-{{ version }} mode=0777
+
+- name: copy the entrypoint
+  copy: src=entrypoint.sh dest=tmp/jira/entrypoint.sh mode=0777
+
+- name: copygroovy scripts
+  copy: src=config/ dest=tmp/jira/config/ mode=0777
+
+- include: ../../common/tasks/buildall.yml buildname=jira buildtag={{ version }} buildpath=tmp/jira/ buildfile=Dockerfile-{{ version }}
