@@ -1,6 +1,16 @@
 version: '2'
 
 services:
+  proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - ./certs:/etc/nginx/certs:ro
+    networks:
+      - proxy
   jiradb:
     image: atlassian/postgres:9.4
     volumes:
@@ -38,8 +48,10 @@ services:
       #- ./jira.config:/opt/jira/config/jira.config
     networks:
       - jira
-    ports:
-      - 0.0.0.0:8080:8080
+      - proxy
+    environment:
+      - VIRTUAL_HOST=jira.intranet.local
+      - VIRTUAL_PORT=8080
   confluence:
     image: atlassian/confluence:6.2.3
     volumes:
@@ -47,8 +59,10 @@ services:
       #- ./confluence.config:/opt/confluence/config/confluence.config
     networks:
       - confluence
-    ports:
-      - 0.0.0.0:8090:8090
+      - proxy
+    environment:
+      - VIRTUAL_HOST=confluence.intranet.local
+      - VIRTUAL_PORT=8090
   bitbucket:
     image: atlassian/bitbucket:5.1.0
     volumes:
@@ -56,8 +70,12 @@ services:
       #- ./bitbucket.config:/opt/bitbucket/config/bitbucket.config
     networks:
       - bitbucket
+      - proxy
     ports:
-      - 0.0.0.0:7990:7990
+      - 0.0.0.0:7999:7999
+    environment:
+      - VIRTUAL_HOST=bitbucket.intranet.local
+      - VIRTUAL_PORT=7990
 
 volumes:
   jiradb:
@@ -71,3 +89,4 @@ networks:
   jira:
   confluence:
   bitbucket:
+  proxy:

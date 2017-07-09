@@ -11,7 +11,7 @@ Elements configured automatically:
 * JIRA: you can opt to start a container with notifications disabled (fantastic usecase in test-environment)
 * ...
 
-Example configfile for JIRA:
+**Optional** example configfile for JIRA:
 
 ```bash
 jira {
@@ -19,14 +19,14 @@ jira {
     minimumMemory "2048m"
     maximumMemory "2048m"
     database {
-        user "jirauser"
-        password "jirapass"
-        host "localhost"
+        user "atlassian"
+        password "atlassian"
+        host "jiradb"
         name "jira"
         type "postgres72"
         schema "public"
     }
-    baseUrl "https://jira.intranet.com"
+    baseUrl "https://jira.intranet.local"
 }
 ```
 
@@ -38,5 +38,20 @@ The same structure is provided for Confluence and Bitbucket. Examples provided.
 docker-compose up -d
 ```
 
-After a while you will see application running on localhost:(8080|8090|7990)
+Embedded is a reverse proxy which connects to the VIRTUAL_HOST parameter. If you point dns/hostsfile to the host running the containers, you will be able to navigate and set up:
+* http://jira.intranet.local
+* http://confluence.intranet.local
+* http://bitbucket.intranet.local
+
+Changing the virtualhost/fqdn is only changing the VIRTUAL_HOST parameter and running 'docker-compose up -d' . 
+
+## Configuring the databases
+
+Database hosts/names can be viewed in the docker-compose file. For your convenience:
+| Application   | Hostname      | Database   | Username  | Password  | Url                              |
+| ------------- | ------------- | ---------- | --------- | --------- | -------------------------------- |
+| jira          | jiradb        | jira       | atlassian | atlassian | http://jira.intranet.local       |
+| confluence    | confluencedb  | confluence | atlassian | atlassian | http://confluence.intranet.local |
+| bitbucket     | bitbucketdb   | bitbucket  | atlassian | atlassian | http://bitbucket.intranet.local  |
+
 
