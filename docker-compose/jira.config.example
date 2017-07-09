@@ -10,5 +10,5 @@ jira {
         type "postgres72"
         schema "public"
     }
-    baseUrl "https://jira.intranet.com"
+    baseUrl "https://jira.intranet.local"
 }

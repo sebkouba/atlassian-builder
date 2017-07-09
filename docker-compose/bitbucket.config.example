@@ -8,5 +8,5 @@ bitbucket {
         name "bitbucket"
         type "postgres"
     }
-    baseUrl "https://git.intranet.co"
+    baseUrl "https://bitbucket.intranet.local"
 }

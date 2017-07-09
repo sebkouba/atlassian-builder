@@ -9,5 +9,5 @@ confluence {
         type "postgres"
         schema "public"
     }
-    baseUrl "http://wiki.intranet.co"
+    baseUrl "http://confluence.intranet.local"
 }
