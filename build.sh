@@ -27,7 +27,7 @@ if [ "$?" = "0" ]
         virtualenv -p python2 .venv
         ./.venv/bin/pip install -r requirements.txt
     fi
-    ./.venv/bin/ansible-playbook builder.yml
+    ansible-playbook builder.yml
   else
     printf "Python2 is required\n"
     exit 1
