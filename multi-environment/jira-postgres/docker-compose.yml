@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  jiradb:
+    image: atlassian/postgres:9.4
+    volumes:
+      - ./persist/jira/db:/opt/jira/data
+    environment:
+      - DB_PASS=atlassian
+      - DB_NAME=jira
+      - DB_USER=atlassian
+    networks:
+      - jira
+  jira:
+    image: atlassian/jira:7.4.0
+    volumes:
+      - ./persist/jira/home:/opt/jira/data
+      - ./jira.config:/opt/jira/config/jira.config
+    networks:
+      - jira
+      - proxy
+    environment:
+      - VIRTUAL_HOST=jira.intranet.local
+      - VIRTUAL_PORT=8080
+
+networks:
+  jira:
+  proxy:
+    external:
+      name: nginx-proxy
