@@ -2,7 +2,7 @@
 allow_duplicates: yes
 dependencies:
 #  - { role: atlassian-bamboo, version: 6.0.3, java: 8 }
-#.  - { role: atlassian-bamboo, version: 5.15.5, java: 8 }
+#  - { role: atlassian-bamboo, version: 5.15.5, java: 8 }
 #  - { role: atlassian-bamboo, version: 5.15.0.1, java: 8 }
 #  - { role: atlassian-bamboo, version: 5.14.4.1, java: 8 }
 #  - { role: atlassian-bamboo, version: 5.14.3.1, java: 8 }
@@ -93,7 +93,8 @@ dependencies:
 #  - { role: atlassian-crowd, version: 2.8.0, java: 8 }
 #  - { role: atlassian-crowd, version: 2.7.2, java: 8 }
 
-#  - { role: atlassian-jira, version: 7.4.0, java: 8 }
+  - { role: atlassian-jira, version: 7.4.2, java: 8 }
+  - { role: atlassian-jira, version: 7.4.0, java: 8 }
 #  - { role: atlassian-jira, version: 7.3.8, java: 8 }
 #  - { role: atlassian-jira, version: 7.3.3, java: 8 }
 #  - { role: atlassian-jira, version: 7.3.1, java: 8 }
@@ -131,13 +132,13 @@ dependencies:
 #  - { role: atlassian-jira, version: 6.3.7, java: 8 }
 #  - { role: atlassian-jira, version: 6.3.3, java: 8 }
 #  - { role: atlassian-jira, version: 6.2.4, java: 7 }
-  - { role: atlassian-jira, version: 6.2.3, java: 7 }
+#  - { role: atlassian-jira, version: 6.2.3, java: 7 }
 #  - { role: atlassian-jira, version: 6.2.1, java: 7 }
 #  - { role: atlassian-jira, version: "6.1.7", java: 7 }
 #  - { role: atlassian-jira, version: "6.1", java: 7 }
 #  - { role: atlassian-jira, version: "4.4.5", java: 6 }
 
-# - { role: atlassian-fecru, version: 4.4.1, java: 8 }
+#  - { role: atlassian-fecru, version: 4.4.1, java: 8 }
 #  - { role: atlassian-fecru, version: 4.3.1, java: 8 }
 #  - { role: atlassian-fecru, version: 4.3.0, java: 8 }
 #  - { role: atlassian-fecru, version: 4.2.1, java: 8 }

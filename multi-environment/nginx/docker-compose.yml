@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    restart: always
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - ./certs:/etc/nginx/certs:ro
+    environment:
+      - DEFAULT_HOST=${BERSERK_HOST}
+
+  defaulthost:
+    restart: always
+    image: httpd:2.4
+    environment:
+      - VIRTUAL_HOST=${BERSERK_HOST}
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
