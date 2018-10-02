@@ -31,16 +31,16 @@ services:
       - DB_USER=atlassian
     networks:
       - confluence
-  bitbucketdb:
-    image: atlassian/postgres:9.4
-    volumes:
-      - bitbucketdb:/var/lib/postgresql/data
-    environment:
-      - DB_PASS=atlassian
-      - DB_NAME=bitbucket
-      - DB_USER=atlassian
-    networks:
-      - bitbucket
+  # bitbucketdb:
+  #   image: atlassian/postgres:9.4
+  #   volumes:
+  #     - bitbucketdb:/var/lib/postgresql/data
+  #   environment:
+  #     - DB_PASS=atlassian
+  #     - DB_NAME=bitbucket
+  #     - DB_USER=atlassian
+  #   networks:
+  #     - bitbucket
   jira:
     image: atlassian/jira:7.3.8
     volumes:
@@ -63,30 +63,30 @@ services:
     environment:
       - VIRTUAL_HOST=confluence.intranet.local
       - VIRTUAL_PORT=8090
-  bitbucket:
-    image: atlassian/bitbucket:5.1.0
-    volumes:
-      - bitbucketdata:/opt/bitbucket/data
-      #- ./bitbucket.config:/opt/bitbucket/config/bitbucket.config
-    networks:
-      - bitbucket
-      - proxy
-    ports:
-      - 0.0.0.0:7999:7999
-    environment:
-      - VIRTUAL_HOST=bitbucket.intranet.local
-      - VIRTUAL_PORT=7990
+  # bitbucket:
+  #   image: atlassian/bitbucket:5.1.0
+  #   volumes:
+  #     - bitbucketdata:/opt/bitbucket/data
+  #     #- ./bitbucket.config:/opt/bitbucket/config/bitbucket.config
+  #   networks:
+  #     - bitbucket
+  #     - proxy
+  #   ports:
+  #     - 0.0.0.0:7999:7999
+  #   environment:
+  #     - VIRTUAL_HOST=bitbucket.intranet.local
+  #     - VIRTUAL_PORT=7990
 
 volumes:
   jiradb:
   jiradata:
   confluencedb:
   confluencedata:
-  bitbucketdb:
-  bitbucketdata:
+  # bitbucketdb:
+  # bitbucketdata:
 
 networks:
   jira:
   confluence:
-  bitbucket:
+  # bitbucket:
   proxy:
