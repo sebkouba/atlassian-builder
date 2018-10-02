@@ -42,7 +42,7 @@ services:
   #   networks:
   #     - bitbucket
   jira:
-    image: atlassian/jira:7.3.8
+    image: atlassian/jira:7.12.2
     volumes:
       - jiradata:/opt/jira/data
       #- ./jira.config:/opt/jira/config/jira.config
@@ -53,7 +53,7 @@ services:
       - VIRTUAL_HOST=jira.intranet.local
       - VIRTUAL_PORT=8080
   confluence:
-    image: atlassian/confluence:6.2.3
+    image: atlassian/confluence:6.11.2
     volumes:
       - confluencedata:/opt/confluence/data
       #- ./confluence.config:/opt/confluence/config/confluence.config
