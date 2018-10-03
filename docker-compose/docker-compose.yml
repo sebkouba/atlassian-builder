@@ -45,7 +45,7 @@ services:
     image: atlassian/jira:7.12.2
     volumes:
       - jiradata:/opt/jira/data
-      #- ./jira.config:/opt/jira/config/jira.config
+      - ./jira.config:/opt/jira/config/jira.config
     networks:
       - jira
       - proxy
@@ -56,7 +56,7 @@ services:
     image: atlassian/confluence:6.11.2
     volumes:
       - confluencedata:/opt/confluence/data
-      #- ./confluence.config:/opt/confluence/config/confluence.config
+      - ./confluence.config:/opt/confluence/config/confluence.config
     networks:
       - confluence
       - proxy

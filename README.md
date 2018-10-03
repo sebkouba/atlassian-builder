@@ -1,3 +1,7 @@
+# Seb Readme Section
+## Setup
+`apt update; apt install python-pip python-dev -y`
+
 ## atlassian-docker-builder
 
 * Builds an Ansible based docker image
