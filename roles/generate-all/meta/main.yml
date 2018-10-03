@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - { role: meta-atlassian, os: alpine, osversion: "3.8" }
+  - { role: meta-atlassian, os: alpine, osversion: "3.6" }
   - { role: postgres }
   # - { role: meta-atlassian-sdk, os: alpine, osversion: "3.6" }
