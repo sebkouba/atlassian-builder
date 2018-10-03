@@ -21,7 +21,7 @@ RUN adduser -h /opt/confluence/data -D confluence
 {% if version|version_compare("6.0.0", ">=") %}
 RUN apt update
 RUN apt-get install apache2 apache2-doc apache2-utils -y
-mkdir -p /run/apache2
+RUN mkdir -p /run/apache2
 COPY apache2.conf /etc/apache2/conf-enabled/default.conf
 RUN sed -i -e 's/Listen 80/Listen 8090/g' /etc/apache2/apache2.conf
 RUN sed -i -e 's/8090/8092/g' /opt/confluence/install/conf/server.xml
