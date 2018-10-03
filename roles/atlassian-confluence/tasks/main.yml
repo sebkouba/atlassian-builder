@@ -6,7 +6,7 @@
     - ssl
 
 - name: template the confluence
-  template: src=Dockerfile.deb.j2 dest=tmp/confluence/Dockerfile-{{ version }} mode=0777
+  template: src=Dockerfile.j2 dest=tmp/confluence/Dockerfile-{{ version }} mode=0777
 
 - name: copygroovy scripts
   copy: src=config/ dest=tmp/confluence/config/ mode=0777
