@@ -21,6 +21,9 @@ RUN adduser -h /opt/confluence/data -D confluence
 {% if version|version_compare("6.0.0", ">=") %}
 RUN apk add --no-cache apache2-proxy && mkdir -p /run/apache2
 COPY apache2.conf /etc/apache2/conf.d/default.conf
+# fix apache bug with module load order - delete mod_proxy line than insert at top
+RUN sed -i '/.*mod_proxy.so/d' /etc/apache2/conf.d/proxy.conf
+RUN sed -i '1 i\LoadModule proxy_module modules/mod_proxy.so' /etc/apache2/conf.d/proxy.conf
 RUN sed -i -e 's/Listen 80/Listen 8090/g' /etc/apache2/httpd.conf
 RUN sed -i -e 's/8090/8092/g' /opt/confluence/install/conf/server.xml
 {% endif %}
