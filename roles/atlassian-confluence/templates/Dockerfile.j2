@@ -19,7 +19,7 @@ COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 RUN adduser -h /opt/confluence/data -D confluence
 {% if version|version_compare("6.0.0", ">=") %}
-RUN apk add --no-cache apache2-proxy=2.4.0 && mkdir -p /run/apache2
+RUN apk add --no-cache apache2-proxy && mkdir -p /run/apache2
 COPY apache2.conf /etc/apache2/conf.d/default.conf
 RUN sed -i -e 's/Listen 80/Listen 8090/g' /etc/apache2/httpd.conf
 RUN sed -i -e 's/8090/8092/g' /opt/confluence/install/conf/server.xml
