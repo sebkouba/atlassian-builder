@@ -24,3 +24,19 @@ dependencies:
 - creates entrypoint.sh
 - copies the groovy script (which writes the db config)
 - writes line into /tmp/buildall.yml
+
+### image hierarchy
+1. alpine => base-alpine
+2. java (jdk)
+3. application (groovy)
+4. j/c/b
+
+### alpine
+base with a few packages
+
+### java
+apparently for jdk
+
+Groovy is only required to build the configs and it doesn't build the confluence config to begin with.
+It supports other dbs but doesn't work properly. Only postgres is needed here so it can probably be simplified using ansible only.
+Then the whole layer can be removed
